@@ -17,3 +17,4 @@ Download following web drivers for repective browsers
 
 After downloading the drivers and dependencies.<br>
 Place the drivers in "Requirement" folder as follows.<br>
+![](Images/Folder_Structure.PNG)
