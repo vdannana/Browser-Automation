@@ -11,7 +11,7 @@ from selenium import webdriver
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.keys import Keys
 
-import configuration as conf
+import Configuration as conf
 
 accept_dialog_script = (
     f"const browser = document.getElementsByClassName('dialogFrame')[0];" +
