@@ -1,6 +1,3 @@
-# requirements
-# 'requires' 'selenium'
-
 import os
 import time
 from random import randint

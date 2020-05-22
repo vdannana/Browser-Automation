@@ -13,16 +13,20 @@ from selenium.webdriver.common.keys import Keys
 
 import Configuration as conf
 
+
+'''
+    This Script is use to click a clear button in alert box in firefox browser to clear cache.
+'''
 accept_dialog_script = (
     f"const browser = document.getElementsByClassName('dialogFrame')[0];" +
     "browser.contentDocument.querySelector('#clearButton').click();"
 )
 
 
-def get_clear_site_data_button(driver):
-    return driver.find_element_by_css_selector('#clearSiteDataButton')
-
-
+'''
+    clear_chrome_cache function clears the chrome browser cache.
+    the argument driver is a webdriver object of the browser.
+'''
 def clear_chrome_cache(driver):
     driver.get('chrome://settings/clearBrowserData')
     driver.find_element_by_xpath('//settings-ui').send_keys(Keys.ENTER)
@@ -32,10 +36,14 @@ def clear_chrome_cache(driver):
     print(driver.current_url)
 
 
+'''
+    clear_firefox_cache function clears the firefox browser cache.
+    the argument driver is a webdriver object of the browser.
+'''
 def clear_firefox_cache(driver, timeout=10):
     driver.get('about:preferences#privacy')
     # Click the "Clear Data..." button under "Cookies and Site Data".
-    get_clear_site_data_button(driver).click()
+    driver.find_element_by_css_selector('#clearSiteDataButton').click()
     time.sleep(2)
     driver.execute_script(accept_dialog_script)
     time.sleep(2)
@@ -43,6 +51,9 @@ def clear_firefox_cache(driver, timeout=10):
     alert.accept()
 
 
+'''
+    fetch_urls function gets the 100 urls from the github link.
+'''
 def fetch_urls():
     read_data = requests.get(conf.url_path).content
     urls = read_data.decode("utf-8")
@@ -50,6 +61,13 @@ def fetch_urls():
     print(len(conf.web_url_list))
 
 
+'''
+    Rand function selects a number (num) of random number from the range [satrt, end].
+    the arguments
+        start range starting number.
+        end   range ending number.
+        num   number of random numbers to get.
+'''
 def Rand(start, end, num):
     res = []
     for j in range(num):
@@ -57,6 +75,9 @@ def Rand(start, end, num):
     return res
 
 
+'''
+    selectList function selects a conf.number_of_sites number of random sites from 100 sites fetched from github
+'''
 def selectList():
     conf.selectList = []
     lst = Rand(0, len(conf.web_url_list) - 1, conf.number_of_sites)
@@ -64,6 +85,19 @@ def selectList():
         conf.selectList.append(conf.web_url_list[i])
 
 
+'''
+    openBrowser function performs following tasks
+        1. open the required browser.
+        2. clears the web cache.
+        3. opens list of sites/urls.
+        4. get the satus code, amount of bytes loaded, time taken to load the site are calculated.
+    The argumntes
+        sitelist takes list of site urls
+        browsercode takes a integer which represents a specific browser
+            ex: 0 for Chrome
+                1 for Firefox
+                other values open Internet Explorer
+'''
 def openBrowser(sitelist, browsercode):
     if platform == "linux" or platform == "linux2":
         if browsercode == '0':
