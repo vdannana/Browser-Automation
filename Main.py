@@ -19,6 +19,7 @@ else:
 f = open(conf.Log_Directory+'/'+conf.File_Name, 'w')
 f.close()
 
+# Open Browser repatedly and open the sites.
 driver = cf.openBrowser(conf.selectList, conf.browsercode)
 time.sleep(conf.browser_close_time)
 driver.quit()
